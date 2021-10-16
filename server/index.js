@@ -34,6 +34,10 @@ app.post('/uploadFile',upload.single('myimg'),async(req,res,next)=>{
         res.send(pathname);
     }
 })
+app.get('/download/:name',(req,res)=>{
+    filepath='./images/'+req.params.name;
+    res.download(filepath);
+})
 app.post('/createFile',(req,res)=>{
     console.log(req.body);
     var data=req.body;
