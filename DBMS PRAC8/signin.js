@@ -15,8 +15,8 @@ sform.addEventListener('submit',(e)=>{
     .then(j=>{
         console.log(j.msg)
         if(j.msg == 'VERIFIED'){
-            var name = //value
-            localStorage.setItem("id",name);
+            var name = email;
+            localStorage.setItem("email",name);
             location.replace("home.html");
         }
         else{
