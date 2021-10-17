@@ -24,13 +24,3 @@ function download(filename)
     location.replace("http://localhost:4001/download/"+filename.id);
     //fetch("http://localhost:4001/download/"+filename.id).then(res=>res.download())
 }
-var docid='';
-function setDocid(data)
-{
-    docid=data.id;
-}
-function addUser()
-{
-    var username=document.getElementById('username').value
-    console.log(docid,username)
-}

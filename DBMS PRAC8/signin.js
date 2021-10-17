@@ -1,4 +1,8 @@
 var sform=document.getElementById("sform");
+if(localStorage.getItem('email'))
+{
+    location.replace("home.html");
+}
 sform.addEventListener('submit',(e)=>{
     e.preventDefault();
     var email=document.getElementById('email').value;

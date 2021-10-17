@@ -13,4 +13,5 @@ sform.addEventListener('submit',(e)=>{
         headers:{"Content-Type": "application/json" }
     }).then(res=>res.json())
     .then(j=>console.log(j)).catch(e=>console.error(e));
+    location.replace("index.html");
 });

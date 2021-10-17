@@ -15,7 +15,7 @@ fsubmit.addEventListener('submit',async function(e){
      var result= await toBase64(files.files[0]).catch((suc)=>console.log(suc));
     console.log(result);
         console.log(dcode);
-        let data1={"filename":files.files[i].name,"filecontent":result,"owner":"pravesh","sharedusers":[]};
+        let data1={"filename":files.files[i].name,"filecontent":result,"owner":localStorage.getItem("email"),"sharedusers":[]};
         data.push(data1);
     }
     var fdata={data:data};

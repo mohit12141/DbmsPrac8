@@ -81,6 +81,7 @@
                     
                   </tr>
                 </thead>
+<<<<<<< Updated upstream
                 <tbody>
                   <tr>
                     <th scope="row">1</th>
@@ -100,6 +101,10 @@
                     <td colspan="2">Larry the Bird</td>
                     <td>@twitter</td>
                   </tr>
+=======
+                <tbody id="files">
+                  
+>>>>>>> Stashed changes
                 </tbody>
             </table>
           </div>
@@ -112,11 +117,11 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <input type="text" placeholder="enter user id" />
+                      <input type="text" id="username" placeholder="enter user id" />
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle</button>
-                      <button type="button" class="btn btn-primary">Confirm</button>
+                      <button type="button" class="btn btn-primary" onclick="adduser()">Confirm</button>
                     </div>
                   </div>
                 </div>
@@ -125,5 +130,6 @@
             var email = localStorage.getItem("email");
             console.log(email);
           </script>
+          <script src="myfiles.js"></script>
     </body>
 </html>

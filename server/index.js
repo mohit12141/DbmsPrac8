@@ -1,7 +1,8 @@
 const express=require('express')
 const fs=require('fs');
 const cors=require('cors');
-const db=require('./config');
+const firebase=require('./config');
+const db=firebase.firestore();
 var file=db.collection('docs');
 var users=db.collection('users');
 const bodyp=require('body-parser');
@@ -70,15 +71,33 @@ app.post('/upload',async(req,res)=>{
 })
 
 app.get('/download/:name',(req,res)=>{
+
     filepath='./images/'+req.params.name;
     res.download(filepath);
 })
-
-app.get('/getFiles',async(req,res)=>{
+app.post("/getMyFiles",async(req,res)=>{
     var name=req.body.name;
-    var snapshot=await file.where('users','array-contains',name).get();
+    var snapshot=await file.where('owner','==',name).get();
     var list=snapshot.docs.map((doc)=>({id:doc.id,...doc.data()}));
     res.send(list);
+})
+app.post('/getFiles',async(req,res)=>{
+    var name=req.body.name;
+    var snapshot=await file.where('sharedusers','array-contains',name).get();
+    var list=snapshot.docs.map((doc)=>({id:doc.id,...doc.data()}));
+    res.send(list);
+})
+app.post('/addUser',async(req,res)=>{
+    var data=req.body;
+    var sharedusers;
+    await file.doc(data.id).get().then(q=>{
+        console.log(q.data().sharedusers);
+        sharedusers=q.data().sharedusers;
+        sharedusers.push(data.username);
+    })
+    console.log(sharedusers);
+    var doc=await file.doc(data.id).update({sharedusers:sharedusers})
+    res.send("done");
 })
 app.get('/getfile',async(req,res)=>{
     console.log("here");
