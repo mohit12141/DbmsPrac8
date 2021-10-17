@@ -8,14 +8,15 @@
             
         }
     </style>
+    
     </head>
     <body> 
         <div class="card bg-dark text-light" style="width: 20rem;">
-        <form class="p-4">
+        <form id="myform" method="post" class="p-4">
             
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Upload File</label>
-              <input type="file" class="form-control" id="file" aria-describedby="emailHelp" multiple>
+              <input type="file" name='file' class="form-control" id="file" aria-describedby="emailHelp" multiple>
               
             </div>
             <!-- <div class="mb-3">
@@ -26,8 +27,9 @@
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div> -->
-            <button type="submit" class="btn btn-outline-secondary">Upload </button>
-          </form>
-        </div>
+            <button id='submit' class="btn btn-outline-secondary" >Upload </button>
+          </div>
+        </form>
+        <script src="./upload.js"></script>
     </body>
 </html>

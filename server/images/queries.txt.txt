@@ -1,0 +1,259 @@
+#TABLE CREATION AND POPULATION
+
+CREATE TABLE CUSTOMER(
+	CUST_NUM NUMBER(4) ,
+	CUST_LNAME VARCHAR2(20) NOT NULL,
+	CUST_FNAME VARCHAR2(20) NOT NULL,
+	CUST_BALANCE NUMBER(10,2),
+	PRIMARY KEY(CUST_NUM)
+);
+
+Table created.
+
+CREATE TABLE INVOICE(
+	INV_NUM NUMBER(4),
+	CUST_NUM NUMBER(4) REFERENCES CUSTOMER(CUST_NUM),
+	INV_DATE DATE,
+	INV_AMOUNT NUMBER(10,2) NOT NULL,
+	PRIMARY KEY(INV_NUM,CUST_NUM)
+);
+
+Table created.
+
+CREATE TABLE CUSTOMER2(
+	CUST_NUM NUMBER(4),
+	CUST_LNAME VARCHAR2(20),
+	CUST_FNAME VARCHAR2(20),
+	PRIMARY KEY(CUST_NUM)	
+);
+
+Table created.
+
+INSERT INTO CUSTOMER(CUST_NUM,CUST_LNAME,CUST_FNAME,CUST_BALANCE)
+	VALUES(1000,'Sharma','Suman',2200.65);
+
+1 row created.
+
+INSERT INTO CUSTOMER(CUST_NUM,CUST_LNAME,CUST_FNAME,CUST_BALANCE)
+	VALUES(1001,'Mantha','Mohan',1440.55);
+
+1 row created.
+
+INSERT INTO INVOICE(INV_NUM,CUST_NUM,INV_DATE,INV_AMOUNT)
+	VALUES(8000,1000,'24-AUG-21',765.92);
+
+1 row created.
+
+INSERT INTO INVOICE(INV_NUM,CUST_NUM,INV_DATE,INV_AMOUNT)
+	VALUES(8001,1001,'28-AUG-21',456.30);
+
+1 row created.
+
+INSERT INTO INVOICE(INV_NUM,CUST_NUM,INV_DATE,INV_AMOUNT)
+	VALUES(8002,1001,'30-AUG-21',984.25);
+
+1 row created.
+
+INSERT INTO INVOICE(INV_NUM,CUST_NUM,INV_DATE,INV_AMOUNT)
+	VALUES(8003,1000,'12-SEP-21',891.23);
+
+1 row created.
+
+INSERT INTO INVOICE(INV_NUM,CUST_NUM,INV_DATE,INV_AMOUNT)
+	VALUES(8004,1000,'15-SEP-21',543.50);
+
+1 row created.
+
+INSERT INTO CUSTOMER2(CUST_NUM,CUST_LNAME,CUST_FNAME)
+	VALUES(2000,'Mantha','Mohan');
+
+1 row created.
+
+INSERT INTO CUSTOMER2(CUST_NUM,CUST_LNAME,CUST_FNAME)
+	VALUES(2001,'Bambani','Basav');
+
+1 row created.
+
+INSERT INTO CUSTOMER2(CUST_NUM,CUST_LNAME,CUST_FNAME)
+	VALUES(2002,'Kaswa','Ketki');
+
+1 row created.
+
+INSERT INTO CUSTOMER2(CUST_NUM,CUST_LNAME,CUST_FNAME)
+	VALUES(2003,'Chawla','Chanchal');
+
+1 row created.
+
+#QUERY 1
+
+SELECT CUST_LNAME,CUST_FNAME 
+	FROM CUSTOMER 
+		UNION
+	SELECT CUST_LNAME,CUST_FNAME
+	 FROM CUSTOMER2;
+
+
+CUST_LNAME           CUST_FNAME
+-------------------- --------------------
+Bambani              Basav
+Chawla               Chanchal
+Kaswa                Ketki
+Mantha               Mohan
+Sharma               Suman
+
+
+
+
+#QUERY 2
+
+SELECT CUST_LNAME,CUST_FNAME 
+	FROM CUSTOMER 
+		UNION ALL
+	SELECT CUST_LNAME,CUST_FNAME
+	 FROM CUSTOMER2;
+
+
+CUST_LNAME           CUST_FNAME
+-------------------- --------------------
+Sharma               Suman
+Mantha               Mohan
+Mantha               Mohan
+Bambani              Basav
+Kaswa                Ketki
+Chawla               Chanchal
+
+SELECT CUST_LNAME,CUST_FNAME 
+	FROM CUSTOMER 
+		INTERSECT
+	SELECT CUST_LNAME,CUST_FNAME
+	 FROM CUSTOMER2;
+
+
+CUST_LNAME           CUST_FNAME
+-------------------- --------------------
+Mantha               Mohan
+
+#QUERY 3
+
+SELECT DISTINCT CUST_NUM,CUST_FNAME,CUST_LNAME
+	FROM CUSTOMER2;
+
+
+  CUST_NUM CUST_FNAME           CUST_LNAME
+---------- -------------------- --------------------
+      2000 Mohan                Mantha
+      2002 Ketki                Kaswa
+      2003 Chanchal             Chawla
+      2001 Basav                Bambani
+
+SELECT INV_NUM,(SELECT (CUST_FNAME ||' '|| CUST_LNAME)
+	 FROM CUSTOMER WHERE CUST_NUM=I.CUST_NUM) AS NAME ,INV_DATE,INV_AMOUNT
+	 	FROM INVOICE I;
+
+
+   INV_NUM NAME            INV_DATE  INV_AMOUNT
+---------- --------------- --------- ----------
+      8000 Suman Sharma    24-AUG-21     765.92
+      8001 Mohan Mantha    28-AUG-21      456.3
+      8002 Mohan Mantha    30-AUG-21     984.25
+      8003 Suman Sharma    12-SEP-21     891.23
+      8004 Suman Sharma    15-SEP-21      543.5
+
+#QUERY 4
+
+SELECT INV_NUM,(SELECT (CUST_FNAME ||' '|| CUST_LNAME)
+	 FROM CUSTOMER WHERE CUST_NUM=I.CUST_NUM) AS NAME ,INV_DATE,INV_AMOUNT
+	 	FROM INVOICE I
+	 	WHERE CUST_NUM IN (SELECT CUST_NUM FROM CUSTOMER
+	 	WHERE CUST_BALANCE>=1500);
+
+
+   INV_NUM NAME            INV_DATE  INV_AMOUNT
+---------- --------------- --------- ----------
+      8000 Suman Sharma    24-AUG-21     765.92
+      8003 Suman Sharma    12-SEP-21     891.23
+      8004 Suman Sharma    15-SEP-21      543.5
+
+#QUERY 5
+
+SELECT INV_NUM,INV_AMOUNT,
+	(SELECT AVG(INV_AMOUNT) FROM INVOICE)AVEG,
+	(INV_AMOUNT-(SELECT AVG(INV_AMOUNT) FROM INVOICE))DIFFER
+	FROM INVOICE
+	GROUP BY INV_NUM,INV_AMOUNT;
+
+
+   INV_NUM INV_AMOUNT       AVEG     DIFFER
+---------- ---------- ---------- ----------
+      8003     891.23     728.24     162.99
+      8001      456.3     728.24    -271.94
+      8000     765.92     728.24      37.68
+      8002     984.25     728.24     256.01
+      8004      543.5     728.24    -184.74
+
+#QUERY 6
+
+CREATE SEQUENCE INV_SEQ
+	START WITH 5000
+	INCREMENT BY 1
+	NOCACHE
+	NOCYCLE;
+
+Sequence created.
+
+CREATE SEQUENCE CUST_SEQ
+	START WITH 1000
+	INCREMENT BY 1
+	NOCACHE
+	NOCYCLE;
+
+Sequence created.
+
+
+#QUERY 7
+
+ALTER TABLE CUSTOMER ADD CUST_DOB DATE;
+
+Table altered.
+
+ALTER TABLE CUSTOMER ADD CUST_AGE NUMBER(3);
+
+Table altered.
+
+UPDATE CUSTOMER SET CUST_DOB='02-MAR-1980' WHERE CUST_NUM=1000;
+
+1 row updated.
+
+UPDATE CUSTOMER SET CUST_DOB='30-JAN-1979' WHERE CUST_NUM=1001;
+
+1 row updated.
+
+
+#QUERY 8
+
+SELECT (CUST_FNAME||' '||CUST_LNAME)NAME,((SYSDATE-CUST_DOB)/365)CUST_AGE
+	FROM CUSTOMER;
+
+
+NAME              CUST_AGE
+--------------- ----------
+Suman Sharma            42
+Mohan Mantha            43
+
+
+#QUERY 9
+
+UPDATE CUSTOMER SET CUST_AGE=((SYSDATE-CUST_DOB)/365);
+
+2 rows updated.
+
+#QUERY 10
+
+SELECT AVG(CUST_AGE)AVERAGE_CUSTOMER_AGE FROM CUSTOMER;
+
+
+AVERAGE_CUSTOMER_AGE
+--------------------
+                42.5
+
+

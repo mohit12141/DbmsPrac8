@@ -13,5 +13,4 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var db=firebase.firestore();
 
-var emp=db.collection('docs');
-module.exports=emp;
+module.exports=db;
