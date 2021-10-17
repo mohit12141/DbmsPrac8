@@ -1,7 +1,7 @@
-const name={"name":"admin@a.c"};
+
 fetch("http://localhost:4001/getFiles",{
     method:"POST",
-    body:JSON.stringify({"name":"admin@a.c"}),
+    body:JSON.stringify({"name":localStorage.getItem("email")}),
     headers:{"Content-Type":"application/json"}
 }).then(res=>res.json())
 .then(data=>{

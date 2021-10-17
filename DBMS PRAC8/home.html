@@ -9,6 +9,13 @@
             padding: 2rem;
           }
         </style>
+        <script>
+          function logout()
+          {
+            localStorage.removeItem("email");
+            location.replace("index.html");
+          }
+        </script>
     </head>
 
     <body>
@@ -25,7 +32,7 @@
                     <a class="nav-link" aria-current="page" href="upload.html">Upload Files</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="index.html">Logout</a>
+                    <a class="nav-link" onclick="logout()">Logout</a>
                   </li>
                  
                 </ul>
@@ -81,30 +88,8 @@
                     
                   </tr>
                 </thead>
-<<<<<<< Updated upstream
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                   
-                    <td><button class="btn btn-primary" type="button">Download</button></td>
-                    <td><button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Add</button></td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
-=======
                 <tbody id="files">
-                  
->>>>>>> Stashed changes
+
                 </tbody>
             </table>
           </div>

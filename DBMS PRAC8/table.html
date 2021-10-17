@@ -5,6 +5,13 @@
       <style>
         
       </style>
+      <script>
+        function logout()
+        {
+          localStorage.removeItem("email");
+          location.replace("index.html");
+        }
+      </script>
     </head>
     <body>
       <!-- navbar  -->
@@ -21,7 +28,7 @@
                 <a class="nav-link" aria-current="page" href="upload.html">Upload Files</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" onclick="logotu()" href="index.html">Logout</a>
+                <a class="nav-link" onclick="logout()" href="index.html">Logout</a>
               </li>
             </ul>
             <!-- hello    -->

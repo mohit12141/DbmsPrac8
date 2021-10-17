@@ -11,7 +11,6 @@ sform.addEventListener('submit',(e)=>{
         method:"post",
         body:JSON.stringify(data),
         headers:{"Content-Type": "application/json" }
-    }).then(res=>res.json())
-    .then(j=>console.log(j)).catch(e=>console.error(e));
+    })
     location.replace("index.html");
 });
