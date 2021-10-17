@@ -14,5 +14,14 @@ sform.addEventListener('submit',(e)=>{
     }).then(res=>res.json())
     .then(j=>{
         console.log(j.msg)
+        if(j.msg == 'VERIFIED'){
+            var name = //value
+            localStorage.setItem("id",name);
+            location.replace("home.html");
+        }
+        else{
+            window.alert("Wrong credentials");
+            
+        }
     }).catch(e=>console.error(e));
 });
