@@ -4,15 +4,13 @@ sform.addEventListener('submit',(e)=>{
     var email=document.getElementById('email').value;
     var password=document.getElementById('password').value;
     var data={email:email,password:password};
-    var fdata={data:data};
+    //var fdata={data:data};
+   // console.log(JSON.stringify(fdata));
     //console.log(email,pass);
-    fetch("http://localhost:4001/signIn",{
+    fetch("http://localhost:4001/signUp",{
         method:"post",
-        body:JSON.stringify(fdata),
-        headers:{"Content-Type": "application/json"} 
-
+        body:JSON.stringify(data),
+        headers:{"Content-Type": "application/json" }
     }).then(res=>res.json())
-    .then(j=>{
-        console.log(j.msg)
-    }).catch(e=>console.error(e));
+    .then(j=>console.log(j)).catch(e=>console.error(e));
 });

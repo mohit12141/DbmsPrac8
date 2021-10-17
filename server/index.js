@@ -41,16 +41,19 @@ app.post('/signUp',async (req,res)=>{
     users.add(data);
     res.send("USER ADDED");
 });
-app.get('/signIn',(req,res)=>{
+app.post('/signIn',async (req,res)=>{
     var data=req.body;
-    var snapshot=users.where('email','==',data.email).get();
+    console.log(data);
+    var snapshot=await users.where('email','==',data.data.email).get();
+   // res.send(snapshot);
     var list=snapshot.docs.map((doc)=>({id:doc.id,...doc.data()}));
     list.forEach((d)=>{
-        if(d.password==data.password)
+        if(d.password==data.data.password)
         {
             res.send({msg:"VERIFIED"});
         }
     })
+    res.send({msg:"INVALID USER"});
 })
 app.post('/upload',async(req,res)=>{
     //console.log("here bro");
